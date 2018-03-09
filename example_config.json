@@ -1,0 +1,21 @@
+{
+    "input_style": "rest",
+    "output_style": "google",
+    "accepted_shebangs": [
+        "python"
+    ],
+    "output": {
+        "first_line": true,
+        "replace_quotes": "\"\"\"",
+        "standard_indent": "    ",
+        "tab_length": 4,
+        "realign": true,
+        "max_line_length": 72,
+        "use_optional": false,
+        "remove_type_back_ticks": "true",
+        "google": {
+            "use_keyword_section": false,
+            "use_types": true
+        }
+    }
+}
