@@ -328,7 +328,7 @@ class ModuleParser(object):
         if isinstance(next_sibling, ast.Expr) and isinstance(
             next_sibling.value, ast.Str
         ):
-            start = next_sibling.lineno - next_sibling.value.s.count('\n') - 1
+            start = next_sibling.lineno - next_sibling.value.s.count("\n") - 1
             end = next_sibling.lineno
             self.docstrings.append(default_docstring(start, end, self.lines[start:end]))
         elif next_sibling:

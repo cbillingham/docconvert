@@ -55,7 +55,12 @@ class TestModuleParser(object):
         assert self.parser.docstrings[3].lines == ['"""This is a docstring."""\n']
         assert self.parser.docstrings[4].start == 58
         assert self.parser.docstrings[4].end == 62
-        assert self.parser.docstrings[4].lines == ['"""This is a multiline docstring.\n', '\n', 'It is really long!\n', '"""\n']
+        assert self.parser.docstrings[4].lines == [
+            '"""This is a multiline docstring.\n',
+            "\n",
+            "It is really long!\n",
+            '"""\n',
+        ]
 
     def test_raw_docstring_args(self):
         assert self.parser.docstrings[0].args == []

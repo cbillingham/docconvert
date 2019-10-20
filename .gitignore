@@ -15,3 +15,7 @@ dist/
 
 # Documentation
 doc/build
+
+# Development files
+Pipfile
+Pipfile.lock
