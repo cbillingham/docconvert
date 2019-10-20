@@ -1,20 +1,9 @@
 # Docconvert
 
-.. image:: https://readthedocs.org/projects/docconvert/badge/?version=latest
-    :target: https://docconvert.readthedocs.io
-    :alt: Documentation
-
-.. image:: https://img.shields.io/pypi/v/docconvert.svg>
-    :target: https://pypi.org/project/docconvert/
-    :alt: PyPI Version
-
-.. image:: https://img.shields.io/pypi/pyversions/docconvert.svg
-    :target: https://pypi.org/project/docconvert/
-    :alt: Supported Python Versions
-
-.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
-    :target: https://github.com/python/black
-    :alt: Formatted with Black
+[![Documentation](https://readthedocs.org/projects/docconvert/badge/?version=latest)](https://docconvert.readthedocs.io)
+[![PyPI Version](https://img.shields.io/pypi/v/docconvert.svg)](https://pypi.org/project/docconvert/)
+[![Supported Python Versions](https://img.shields.io/pypi/pyversions/docconvert.svg)](https://pypi.org/project/docconvert/)
+[![Formatted with Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/python/black)
 
 Update or convert docstrings in existing Python files.
 
@@ -98,13 +87,13 @@ docconvert --config path/to/config.json src/mypackage/
 ```
 
 Detailed description of all configuration options can be found in the
-[documentation][4].
+[documentation][5].
 
 
 ## Contributing
 
 If you would like to contribute, please take a look at the
-[contributor documentation][5].
+[contributor documentation][6].
 
 
 ## Versioning

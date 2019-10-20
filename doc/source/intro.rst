@@ -41,12 +41,11 @@ Usage
 
 Examples:
 
-Convert files in ``src/mypackage`` from epytext to google using 4
-threads.
+Convert files in `src/mypackage` to google using 4 threads.
 
 ::
 
-    docconvert --input epytext --output google --threads 4 src/mypackage/
+    docconvert --output google --threads 4 src/mypackage/
 
 Convert file ``src/mypackage/myfile.py`` from rest to google.
 
