@@ -1,15 +1,30 @@
 # Docconvert
 
-Update or convert docstrings in existing Python files, managing several styles.
+.. image:: https://readthedocs.org/projects/docconvert/badge/?version=latest
+    :target: https://docconvert.readthedocs.io
+    :alt: Documentation
 
-This Python (2.7+/3+) module and script intends to help Python programmers to
+.. image:: https://img.shields.io/pypi/v/docconvert.svg>
+    :target: https://pypi.org/project/docconvert/
+    :alt: PyPI Version
+
+.. image:: https://img.shields.io/pypi/pyversions/docconvert.svg
+    :target: https://pypi.org/project/docconvert/
+    :alt: Supported Python Versions
+
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/python/black
+    :alt: Formatted with Black
+
+Update or convert docstrings in existing Python files.
+
+This Python (2.7+/3.6+) module and script intends to help Python programmers to
 enhance internal code documentation using docstrings.
 It is useful to harmonize or change a project docstring style format.
 
 It will parse one or several python scripts and retrieve existing docstrings.
 Then, for all found modules/functions/methods/classes, it will convert docstrings
 with parameters, returns, and other fields formatted in the newly specified style.
-At the end, the python files are overwritten.
 
 Currently, the managed styles in input/output are:
 
@@ -61,78 +76,41 @@ optional arguments:
 
 Examples:
 
-Convert files in `src/mypackage` from epytext to google using 4 threads.
+Convert files in `src/mypackage` to google using 4 threads.
 
-    docconvert --input epytext --output google --threads 4 src/mypackage/
+```bash
+docconvert --output google --threads 4 src/mypackage/
+```
 
 Convert file `src/mypackage/myfile.py` from rest to google.
 
-    docconvert --input rest --output google src/mypackage/myfile.py
+```bash
+docconvert --input rest --output google src/mypackage/myfile.py
+```
 
 #### Custom Configuration
 
 You can configure optional conversion arguments in a json config file. Just
 specify a config filepath to the commandline tool.
 
-    docconvert --config path/to/config.json src/mypackage/
+```bash
+docconvert --config path/to/config.json src/mypackage/
+```
 
 Detailed description of all configuration options can be found in the
-full user documentation.
+[documentation][4].
 
 
 ## Contributing
 
-### Running the Tests
-
-Tests are executed through [tox][5].
-
-```bash
-tox
-```
-
-Tests are written with [pytest][6]. Please add unit tests under the
-`tests/` directory to cover any new functionality you have added.
-
-### Code Style
-
-Code is formatted using [black][7].
-
-You can check your formatting using black's check mode:
-
-```bash
-tox -e formatting
-```
-
-You can also get black to format your changes for you:
-
-```bash
-black --exclude tests/test_resources/fixtures/ src/ tests/
-```
-
-### Building Documentation
-
-You can build the documentation through tox.
-
-```bash
-tox -e docs
-```
-
-The built documentation will be output to doc/build
-
-### Releasing
-
-Before releasing please remember to:
-
-- Run the tests and check that they pass
-- Update version in `doc/source/conf.py`, `src/docconvert/__init__.py`, `setup.py`
-- Build the new documentation
-- Add new release notes to `RELEASE_NOTES.rst`
+If you would like to contribute, please take a look at the
+[contributor documentation][5].
 
 
 ## Versioning
 
 We use [SemVer][4] for versioning.
-For the versions available, see the tags on this repository.
+For the versions available, see the tags on the repository.
 
 
 ## License
@@ -142,10 +120,8 @@ See the LICENSE.md file for details.
 
 
 [1]: http://epydoc.sourceforge.net/manual-fields.html
-[2]: http://www.sphinx-doc.org/en/stable/domains.html#info-field-lists
-[3]: http://www.sphinx-doc.org/en/stable/ext/example_google.html
+[2]: https://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
+[3]: https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google
 [4]: http://semver.org/
-[5]: https://tox.readthedocs.io/en/latest/
-[6]: https://docs.pytest.org/en/latest/
-[7]: https://github.com/python/black
-[8]: https://pre-commit.com/
+[5]: https://docconvert.readthedocs.io/
+[6]: https://docconvert.readthedocs.io/en/stable/contributing.html

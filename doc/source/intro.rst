@@ -1,35 +1,7 @@
-.. _user:
+.. _intro:
 
-User Documentation
-==================
-
-.. contents:: Contents
-    :local:
-    :depth: 1
-
-**docconvert** will parse one or several python files and retrieve existing
-docstrings. Then, for all found modules/functions/methods/classes, it will
-convert docstring formatting (including parameters, returns, and other
-fields) to the newly specified style. At the end, the python files are
-overwritten.
-
-Note:
-    **docconvert** is intented to be used with version-controlled files. It
-    will check if the files are within a git repo. If not, it will
-    prompt users if they would still like to overwrite the files.
-
-Currently, the managed styles in input/output are:
-
-**Input**
-
--  `epytext <http://epydoc.sourceforge.net/manual-fields.html>`__
--  `reST <http://www.sphinx-doc.org/en/stable/domains.html#info-field-lists>`__
-   (re-Structured Text, as used by Sphinx)
-
-**Output**
-
--  `google <http://www.sphinx-doc.org/en/stable/ext/example_google.html>`__
-
+Introduction
+============
 
 Installation
 ------------
@@ -271,20 +243,20 @@ remove\_type\_back\_ticks
 Remove back ticks from types. Defaults to "true". If this is on, isolated
 back ticks around type definitions are removed. This option has 3 modes:
 
-  - ``"false"``: No back ticks will be removed.
-  - ``"true"``: Back ticks will be removed, except from sphinx
-    directives. For example:
+- ``"false"``: No back ticks will be removed.
+- ``"true"``: Back ticks will be removed, except from sphinx
+  directives. For example:
 
-    - ```list` of `str``` becomes ``list of str``
-    - ``:py:class:`Test``` stays as ``:py:class:`Test```
-    - ``lot`s of `bool`s`` becomes ``lot`s of bools``
+  - ```list` of `str``` becomes ``list of str``
+  - ``:py:class:`Test``` stays as ``:py:class:`Test```
+  - ``lot`s of `bool`s`` becomes ``lot`s of bools``
 
-  - ``"directives"``: All back ticks, including directives, will be
-    removed. For example:
+- ``"directives"``: All back ticks, including directives, will be
+  removed. For example:
 
-    - ```list` of `str``` becomes ``list of str``
-    - ``:py:class:`Test``` becomes ``Test``
-    - ``lot`s of `bool`s`` becomes ``lot`s of bools``
+  - ```list` of `str``` becomes ``list of str``
+  - ``:py:class:`Test``` becomes ``Test``
+  - ``lot`s of `bool`s`` becomes ``lot`s of bools``
 
 google
 ''''''
