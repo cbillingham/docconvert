@@ -1,5 +1,6 @@
 # Docconvert
 
+[![Build Status](https://travis-ci.org/cbillingham/docconvert.svg?branch=master)](https://travis-ci.org/cbillingham/docconvert)
 [![Documentation](https://readthedocs.org/projects/docconvert/badge/?version=latest)](https://docconvert.readthedocs.io)
 [![PyPI Version](https://img.shields.io/pypi/v/docconvert.svg)](https://pypi.org/project/docconvert/)
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/docconvert.svg)](https://pypi.org/project/docconvert/)

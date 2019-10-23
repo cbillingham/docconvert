@@ -1,0 +1,14 @@
+dist: xenial
+language: python
+matrix:
+  include:
+    - python: 2.7
+      env: TOXENV=py27-sdist
+    - python: 3.6
+      env: TOXENV=py36-sdist
+    - python: 3.7
+      env: TOXENV=py37-sdist,formatting,docs
+install:
+  - pip install tox
+script:
+  - tox
