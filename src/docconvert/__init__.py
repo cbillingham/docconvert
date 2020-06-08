@@ -5,5 +5,5 @@ from . import line_utils
 from . import parser
 from . import writer
 
-__version__ = "1.1.0"
+__version__ = "1.2.0"
 __version_info__ = tuple(int(i) for i in __version__.split(".") if i.isdigit())
