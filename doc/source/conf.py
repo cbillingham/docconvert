@@ -19,7 +19,7 @@ import sys
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sphinx_src_dir = os.path.abspath(".")
-project_dir = os.path.join(sphinx_src_dir, "../../..")
+project_dir = os.path.join(sphinx_src_dir, "../..")
 project_src_dir = os.path.join(project_dir, "src")
 
 # Generate docs for the edited source code, not the installed package.

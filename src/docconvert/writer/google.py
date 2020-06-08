@@ -6,28 +6,28 @@ from .base import BaseWriter
 class GoogleWriter(BaseWriter):
     """Google docstring writer."""
 
+    _args_header = "Args"
+    _keywords_header = "Keyword Args"
+    _directive_title = {
+        "example": "Example",
+        "note": "Note",
+        "seealso": "See Also",
+        "warning": "Warning",
+        "reference": "References",
+        "todo": "Todo",
+    }
+
     def __init__(self, doc, indent, config, **kwargs):
         """
         Args:
-            doc (Docstring): The docstring
-                to write out.
+            doc (Docstring): The docstring to write out.
             indent (str): The starting indent of the docstring.
             config (DocconvertConfiguration):
                 The configuration options for conversion.
             **kwargs: Keyword arguments to pass on to super constructor.
         """
         super(GoogleWriter, self).__init__(doc, indent, config, **kwargs)
-
-        self.google_config = self.config.output.google
-
-        self._directive_title = {
-            "example": "Example",
-            "note": "Note",
-            "seealso": "See Also",
-            "warning": "Warning",
-            "reference": "References",
-            "todo": "Todo",
-        }
+        self.local_config = self.config.output.google
 
     def write_section_header(self, header):
         """Writes a google section header to output lines.
@@ -60,16 +60,16 @@ class GoogleWriter(BaseWriter):
         """
         args, keywords = [], []
         for arg in self.doc.arg_fields.values():
-            if self.google_config.use_keyword_section and arg.optional:
+            if self.local_config.use_keyword_section and arg.optional:
                 keywords.append(arg)
             else:
                 args.append(arg)
         if args:
-            self.write_section_header("Args")
+            self.write_section_header(self._args_header)
             for arg in args:
                 self.write_var(arg)
         if keywords:
-            self.write_section_header("Keyword Args")
+            self.write_section_header(self._keywords_header)
             for keyword in keywords:
                 self.write_var(keyword, use_optional=False)
 
@@ -90,7 +90,7 @@ class GoogleWriter(BaseWriter):
         optional = ""
         if use_optional and self.config.output.use_optional and var.optional:
             optional = "optional"
-        kind = var.kind if self.google_config.use_types else ""
+        kind = var.kind if self.local_config.use_types else ""
         kind = self.remove_back_ticks(kind)
         kind = ", ".join(filter(None, (kind, optional)))
         if kind:

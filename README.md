@@ -26,6 +26,7 @@ Currently, the managed styles in input/output are:
 #### Output
 
 - [google][3]
+- [numpy][7]
 
 
 ## Getting Started
@@ -114,4 +115,5 @@ See the LICENSE.md file for details.
 [3]: https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google
 [4]: http://semver.org/
 [5]: https://docconvert.readthedocs.io/
-[6]: https://docconvert.readthedocs.io/en/contributing.html
+[6]: https://docconvert.readthedocs.io/en/latest/contributing.html
+[7]: https://www.sphinx-doc.org/en/master/usage/extensions/example_numpy.html#example-numpy

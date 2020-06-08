@@ -17,6 +17,7 @@ Currently, the managed styles in input/output are:
 **Output**
 
 -  google_
+-  numpy_
 
 
 Contents
@@ -45,3 +46,4 @@ Indices and tables
 .. _epytext: http://epydoc.sourceforge.net/manual-fields.html
 .. _reST: http://www.sphinx-doc.org/en/master/usage/restructuredtext/domains.html#info-field-lists
 .. _google: https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google
+.. _numpy: https://www.sphinx-doc.org/en/master/usage/extensions/example_numpy.html#example-numpy

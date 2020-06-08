@@ -27,6 +27,7 @@ DEFAULT_CONFIG = {
         "use_optional": False,
         "remove_type_back_ticks": BackTickRemovalOption.TRUE,
         "google": {"use_keyword_section": False, "use_types": True},
+        "numpy": {"use_keyword_section": False, "use_types": True},
     },
 }
 """Default Docconvert configuration settings.
