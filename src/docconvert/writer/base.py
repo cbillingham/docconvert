@@ -31,8 +31,7 @@ class BaseWriter(object):
     def __init__(self, doc, indent, config, kwarg="", vararg=""):
         """
         Args:
-            doc (Docstring): The docstring
-                to write out.
+            doc (Docstring): The docstring to write out.
             indent (str): The starting indent of the docstring.
             config (DocconvertConfiguration):
                 The configuration options for conversion.
@@ -59,6 +58,7 @@ class BaseWriter(object):
         self.output = []
         self._elements_written = 0
         self._quotes = ""
+        self._current_element = 0
 
         self._indent = self.config.output.standard_indent
         self._using_tabs = "\t" in self._indent
@@ -146,7 +146,7 @@ class BaseWriter(object):
             new_lines = realigned_lines + new_lines
         return new_lines
 
-    def write_line(self, line, indent=0, append=None):
+    def write_line(self, line, indent=0, append=None, force=False):
         """Write a line with the proper indentation.
 
         Args:
@@ -155,15 +155,16 @@ class BaseWriter(object):
             append (bool or None): Append to the previous line instead.
                 If None, the default is False, except for the second
                 line written if first_line is configured true.
+            force (bool): Force the line to be written by skipping over
+                any checks. Defaults to False.
         """
         indent = self._section_indent + (indent * self._indent)
         if not line or line.isspace():
             # skip over all empty lines after the beginning quotes
-            # skip over empty lines that come after empty lines
-            skip_empty = self._elements_written == 1 or (
-                self.output and self.output[-1] == "\n"
-            )
-            if skip_empty:
+            # skip over empty lines that come after newlines
+            after_quote = self._elements_written == 1
+            after_newline = self.output and self.output[-1] == "\n"
+            if not force and (after_quote or after_newline):
                 return
             line = ""
             indent = ""
@@ -184,11 +185,10 @@ class BaseWriter(object):
             lines (list(str) or str): A list of raw lines or a single
                 line to write out.
         """
-        if isinstance(lines, list):
-            for line in lines:
-                self.write_line(line)
-        else:
-            self.write_line(lines)
+        if not isinstance(lines, list):
+            lines = [lines]
+        for line in lines:
+            self.write_line(line)
 
     def write_desc(self, desc, header=None, indent=1, hanging=True):
         """Write out a description, reformatting if specified.
@@ -308,7 +308,8 @@ class BaseWriter(object):
                 is found in the docstring.
         """
         self.output = []
-        for element in self.doc.elements:
+        for i, element in enumerate(self.doc.elements):
+            self._current_element = i
             kind = element[0]
             if kind in ("start_quote", "end_quote"):
                 self.write_quotes(kind, element[1])

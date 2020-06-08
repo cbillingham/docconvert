@@ -4,16 +4,21 @@ import enum
 
 from .base import BaseWriter
 from .google import GoogleWriter
+from .numpy import NumpyWriter
 
 
 class OutputStyle(enum.Enum):
     GOOGLE = "google"
+    NUMPY = "numpy"
 
     def __str__(self):
         return self.value
 
 
-_WRITERS = {OutputStyle.GOOGLE: GoogleWriter}
+_WRITERS = {
+    OutputStyle.GOOGLE: GoogleWriter,
+    OutputStyle.NUMPY: NumpyWriter,
+}
 
 
 def get_writer(output_style):

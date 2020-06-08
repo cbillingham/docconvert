@@ -270,5 +270,21 @@ use_keyword_section
 use_types
   Use types in argument output. Defaults to True. If False, argument,
   keyword-argument, and attribute type definitions will be skipped.
-  This could be turned False for Python3, where Sphinx recognizes
+  This could be turned False for Python 3, where Sphinx recognizes
+  annotations.
+
+numpy
+''''''
+
+Numpy docstring output configuration options.
+
+use_keyword_section
+  Use **Keyword Arguments** section for all keyword-arguments. Defaults to
+  False. If set to False, all keyword-arguments will be placed under
+  **Parameters** section.
+
+use_types
+  Use types in argument output. Defaults to True. If False, argument,
+  keyword-argument, and attribute type definitions will be skipped.
+  This could be turned False for Python 3, where Sphinx recognizes
   annotations.

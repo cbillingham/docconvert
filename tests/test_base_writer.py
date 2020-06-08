@@ -235,6 +235,7 @@ class TestBaseWriter(object):
             "directive\n",
             '"""\n',
         ]
+        assert writer._current_element == 7
 
     def test_write_oneline_with_custom_quotes(self):
         self.doc.add_element(("start_quote", 'b"""'))
