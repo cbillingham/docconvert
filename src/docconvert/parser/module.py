@@ -299,6 +299,12 @@ class ModuleParser(object):
                 RawDocstring(start, end, self.lines[start:end], *all_args)
             )
 
+        children = ast.iter_child_nodes(node)
+        self._siblings.append(children)
+        for child in children:
+            self._generic_visit(child)
+        self._siblings.pop()
+
     def _visit_classdef(self, node):
         """Add class docstring if it exists.
 

@@ -114,4 +114,4 @@ See the LICENSE.md file for details.
 [3]: https://www.sphinx-doc.org/en/master/usage/extensions/example_google.html#example-google
 [4]: http://semver.org/
 [5]: https://docconvert.readthedocs.io/
-[6]: https://docconvert.readthedocs.io/en/stable/contributing.html
+[6]: https://docconvert.readthedocs.io/en/contributing.html

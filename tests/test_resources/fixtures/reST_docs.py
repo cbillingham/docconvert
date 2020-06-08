@@ -42,13 +42,13 @@ def func3(arg1, arg2, kwarg1="Test", kwarg2=0):
 def func4(arg1, arg2, kwarg1=None, kwarg2='test'):
     """Testing other usable tokens.
 
-    :parameter arg1: Description for arg1.
+    :param arg1: Description for arg1.
     :type arg1: bool
-    :arg arg2: Description for arg2.
+    :param arg2: Description for arg2.
     :type arg2: list(str)
-    :kwarg kwarg1: Description for kwarg1.
+    :keyword kwarg1: Description for kwarg1.
     :type kwarg1: int or None
-    :kwparam kwarg2: Description for kwarg2.
+    :keyword kwarg2: Description for kwarg2.
     :type kwarg2: str
     :return: Description for return.
     :rtype: dict(str, int)
@@ -76,14 +76,12 @@ class SomeClass(object):
 
         Testing for groups of args.
 
-        :Parameters:
-            arg1 : str
-                Description for arg1.
-            arg2 : CustomClass
-                Description for arg2.
-        :Keywords:
-            kwarg1 : int
-                Description for kwarg1.
+        :param arg1: Description for arg1.
+        :type arg1: str
+        :param arg2: Description for arg2.
+        :type arg2: CustomClass
+        :keyword kwarg1: Description for kwarg1.
+        :type kwarg1: int
         """
         pass
 
@@ -117,11 +115,9 @@ class CustomClass(object):
 
         .. warning:: ``arg2`` must be non-zero.
 
-        :Parameters:
-            arg1 : str
-                Description for arg1.
-            kwargs :
-                Variable keyword args.
+        :param arg1: Description for arg1.
+        :type arg1: str
+        :param kwargs: Variable keyword args.
 
         .. todo:: Checking more stuff.
         .. reference:: Some silly reference.
@@ -129,8 +125,7 @@ class CustomClass(object):
         :return: Description for return.
         :rtype: int
 
-        :Raises:
-            TypeError : Description for TypeError.
-            ValueError : Description for ValueError.
+        :raises TypeError:
+        :raises ValueError:
         """
         pass
