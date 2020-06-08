@@ -42,7 +42,7 @@ class TestModuleParser(object):
         cls.parser.parse()
 
     def test_parsing_tokens(self):
-        assert len(self.parser.docstrings) == 5
+        assert len(self.parser.docstrings) == 9
         assert self.parser.docstrings[0].start == 1
         assert self.parser.docstrings[0].end == 2
         assert self.parser.docstrings[0].lines == ['"""Module docstring!"""\n']
@@ -52,7 +52,7 @@ class TestModuleParser(object):
         assert self.parser.docstrings[2].end == 45
         assert self.parser.docstrings[3].start == 50
         assert self.parser.docstrings[3].end == 51
-        assert self.parser.docstrings[3].lines == ['"""This is a docstring."""\n']
+        assert self.parser.docstrings[3].lines == ['u"""This is a docstring."""\n']
         assert self.parser.docstrings[4].start == 58
         assert self.parser.docstrings[4].end == 62
         assert self.parser.docstrings[4].lines == [
@@ -60,6 +60,23 @@ class TestModuleParser(object):
             "\n",
             "It is really long!\n",
             '"""\n',
+        ]
+        assert self.parser.docstrings[5].start == 65
+        assert self.parser.docstrings[5].end == 66
+        assert self.parser.docstrings[5].lines == [
+            '    """Testing class docstring."""\n'
+        ]
+        assert self.parser.docstrings[6].start == 68
+        assert self.parser.docstrings[6].end == 72
+        assert self.parser.docstrings[7].start == 77
+        assert self.parser.docstrings[7].end == 80
+        assert self.parser.docstrings[8].start == 82
+        assert self.parser.docstrings[8].end == 86
+        assert self.parser.docstrings[8].lines == [
+            '            """Testing nested function docstring.\n',
+            "            :param arg1: Desc for arg1\n",
+            "            :param kwarg1: Desc for kwarg1\n",
+            '            """\n',
         ]
 
     def test_raw_docstring_args(self):

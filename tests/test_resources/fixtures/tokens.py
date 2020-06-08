@@ -48,7 +48,7 @@ def func3(
 
 
 ASSIGN_ONE_LINE = 5
-"""This is a docstring."""
+u"""This is a docstring."""
 
 
 ASSIGN_MULTI_LINE = [
@@ -60,3 +60,28 @@ ASSIGN_MULTI_LINE = [
 
 It is really long!
 """
+
+
+class MyClass(object):
+    """Testing class docstring."""
+
+    def method(self, arg1, **kwargs):
+        """Testing method docstring.
+
+        :param arg1: Desc for arg1
+        """
+
+
+def func4():
+
+    def nestedFunc1(kwarg1='test', **kwargs):
+        """Testing nested function docstring.
+        :param kwarg1: Desc for kwarg1
+        """
+
+        def nestedFunc2(arg1, kwarg1='test'):
+            """Testing nested function docstring.
+            :param arg1: Desc for arg1
+            :param kwarg1: Desc for kwarg1
+            """
+            pass
