@@ -331,14 +331,9 @@ class ModuleParser(object):
         """
         siblings = self._siblings[-1]
         next_sibling = next(siblings, None)
-        if isinstance(next_sibling, ast.Expr) and isinstance(
-            next_sibling.value, ast.Str
-        ):
-            start = next_sibling.lineno - next_sibling.value.s.count("\n") - 1
-            end = next_sibling.lineno
+        if isinstance(next_sibling, ast.Expr) and _is_string_node(next_sibling.value):
+            start, end = _get_string_start_end(next_sibling.value)
             self.docstrings.append(default_docstring(start, end, self.lines[start:end]))
-        elif next_sibling:
-            self._generic_visit(next_sibling)
 
     def _generic_visit(self, node):
         """Visit a node.
@@ -371,6 +366,7 @@ class ModuleParser(object):
         """
         self.current_line_num = 0
         self.docstrings = []
+        self._siblings = []
         source = "".join(self.lines)
         tree = ast.parse(source)
         self._generic_visit(tree)
@@ -408,7 +404,7 @@ def _get_arguments(arguments):
 
 
 def _get_var_arg(arg):
-    """Helper function to get var arg name depending on py version"""
+    """Helper function to get var arg name depending on py version."""
     # before version 3.4 varargs were saved in the ast as str
     if sys.version_info < (3, 4):
         return arg
@@ -416,8 +412,31 @@ def _get_var_arg(arg):
 
 
 def _get_arg_name(arg):
-    """Helper function to get arg name for any py version"""
+    """Helper function to get arg name for any py version."""
     # in python 2 args are stored as Name objects in the ast
     if sys.version_info[0] < 3:
         return arg.id
     return arg.arg
+
+
+def _is_string_node(node):
+    """Check if ast node is a string constant for any py version."""
+    # before version 3.8 strings were ast.Str
+    if sys.version_info < (3, 8):
+        return isinstance(node, ast.Str)
+    # after version 3.8 strings are ast.Constant
+    else:
+        return isinstance(node, ast.Constant) and isinstance(node.s, str)
+
+
+def _get_string_start_end(node):
+    """Get the start and end line for a string ast node."""
+    # before version 3.8 node.lineno was end
+    if sys.version_info < (3, 8):
+        start = node.lineno - node.s.count("\n") - 1
+        end = node.lineno
+    # after version 3.8 node.lineno is start and node.lineno_end is end
+    else:
+        start = node.lineno - 1
+        end = node.end_lineno
+    return start, end
