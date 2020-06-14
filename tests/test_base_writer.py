@@ -75,16 +75,16 @@ class TestBaseWriter(object):
             "        A test line.\n",
         ]
 
-    def test_write_line_second_line_is_adjacent(self):
+    def test_write_raw_second_line_is_adjacent(self):
         writer = MyWriter(self.doc, "", self.config)
         writer.write_line('"""')
-        writer.write_line("A test line.")
+        writer.write_raw("A test line.")
         assert writer.output == ['"""A test line.\n']
 
     def test_write_line_append(self):
         writer = MyWriter(self.doc, "", self.config)
         writer.write_line('"""')
-        writer.write_line("A test line.")
+        writer.write_line("A test line.", append=True)
         writer.write_line(" Part of the first line.", append=True)
         assert writer.output == ['"""A test line. Part of the first line.\n']
 

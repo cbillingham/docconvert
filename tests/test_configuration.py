@@ -14,7 +14,7 @@ class TestConfig(object):
         assert config.output_style == "google"
         assert config.output.tab_length == 4
         assert config.output.remove_type_back_ticks == "true"
-        assert config.output.google.use_types is True
+        assert config.output.use_types is True
 
     def test_invalid_config(self):
         config = docconvert.configuration.DocconvertConfiguration()

@@ -146,15 +146,13 @@ class BaseWriter(object):
             new_lines = realigned_lines + new_lines
         return new_lines
 
-    def write_line(self, line, indent=0, append=None, force=False):
+    def write_line(self, line, indent=0, append=False, force=False):
         """Write a line with the proper indentation.
 
         Args:
             line (str): The line to write.
             indent (int): The number of indents.
-            append (bool or None): Append to the previous line instead.
-                If None, the default is False, except for the second
-                line written if first_line is configured true.
+            append (bool): Append to the previous line instead.
             force (bool): Force the line to be written by skipping over
                 any checks. Defaults to False.
         """
@@ -168,9 +166,6 @@ class BaseWriter(object):
                 return
             line = ""
             indent = ""
-        if append is None:
-            # Append second line adjacent to quotes if first_line specified in config
-            append = self._elements_written == 1 and self.config.output.first_line
         line = line.rstrip()
         if append:
             self.output[-1] = "{0}{1}\n".format(self.output[-1].rstrip(), line)
@@ -188,7 +183,9 @@ class BaseWriter(object):
         if not isinstance(lines, list):
             lines = [lines]
         for line in lines:
-            self.write_line(line)
+            # Append second line adjacent to quotes if first_line specified in config
+            append = self._elements_written == 1 and self.config.output.first_line
+            self.write_line(line, append=append)
 
     def write_desc(self, desc, header=None, indent=1, hanging=True):
         """Write out a description, reformatting if specified.

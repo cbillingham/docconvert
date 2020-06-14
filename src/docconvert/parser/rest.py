@@ -120,7 +120,7 @@ class RestParser(BaseParser):
         raise NotParsableError()
 
     def parse_arg(self, match):
-        """Parses a rest argument field.
+        """Parses a reST argument field.
 
         Args:
             match (re.MatchObject): The match object for the

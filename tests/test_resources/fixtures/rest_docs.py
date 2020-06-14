@@ -28,9 +28,9 @@ def func3(arg1, arg2, kwarg1="Test", kwarg2=0):
     :type arg1: dict
     :param arg2: Description for arg2.
     :type arg2: list(str)
-    :keyword kwarg1: Description for kwarg1.
+    :param kwarg1: Description for kwarg1.
     :type kwarg1: str
-    :keyword kwarg2: Description for kwarg2.
+    :param kwarg2: Description for kwarg2.
     :type kwarg2: int
     :returns: Description for return.
     :rtype: dict(str, int) or None
@@ -46,13 +46,13 @@ def func4(arg1, arg2, kwarg1=None, kwarg2='test'):
     :type arg1: bool
     :param arg2: Description for arg2.
     :type arg2: list(str)
-    :keyword kwarg1: Description for kwarg1.
+    :param kwarg1: Description for kwarg1.
     :type kwarg1: int or None
-    :keyword kwarg2: Description for kwarg2.
+    :param kwarg2: Description for kwarg2.
     :type kwarg2: str
-    :return: Description for return.
+    :returns: Description for return.
     :rtype: dict(str, int)
-    :except ValueError:
+    :raises ValueError:
     """
     pass
 
@@ -80,7 +80,7 @@ class SomeClass(object):
         :type arg1: str
         :param arg2: Description for arg2.
         :type arg2: CustomClass
-        :keyword kwarg1: Description for kwarg1.
+        :param kwarg1: Description for kwarg1.
         :type kwarg1: int
         """
         pass
@@ -89,7 +89,7 @@ class SomeClass(object):
 class CustomClass(object):
     """Testing class docstring.
 
-    :Example:
+    .. example::
 
         >>> import template
         >>> a = template.CustomClass(1)
@@ -122,7 +122,7 @@ class CustomClass(object):
         .. todo:: Checking more stuff.
         .. reference:: Some silly reference.
 
-        :return: Description for return.
+        :returns: Description for return.
         :rtype: int
 
         :raises TypeError:

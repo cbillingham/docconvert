@@ -28,13 +28,13 @@ def func3(arg1, arg2, kwarg1="Test", kwarg2=0):
     @type arg1: dict
     @param arg2: Description for arg2.
     @type arg2: list(str)
-    @keyword kwarg1: Description for kwarg1.
+    @param kwarg1: Description for kwarg1.
     @type kwarg1: str
-    @keyword kwarg2: Description for kwarg2.
+    @param kwarg2: Description for kwarg2.
     @type kwarg2: int
-    @return: Description for return.
+    @returns: Description for return.
     @rtype: dict(str, int) or None
-    @raise RuntimeError: Description for raises.
+    @raises RuntimeError: Description for raises.
     """
     pass
 
@@ -46,13 +46,13 @@ def func4(arg1, arg2, kwarg1=None, kwarg2='test'):
     @type arg1: bool
     @param arg2: Description for arg2.
     @type arg2: list(str)
-    @keyword kwarg1: Description for kwarg1.
+    @param kwarg1: Description for kwarg1.
     @type kwarg1: int or None
-    @keyword kwarg2: Description for kwarg2.
+    @param kwarg2: Description for kwarg2.
     @type kwarg2: str
-    @return: Description for return.
+    @returns: Description for return.
     @rtype: dict(str, int)
-    @raise ValueError:
+    @raises ValueError:
     """
     pass
 
@@ -62,9 +62,9 @@ class SomeClass(object):
 
     Should keep this :class:`CustomClass`.
 
-    @cvar attribute1: Description for attribute1.
+    @var attribute1: Description for attribute1.
     @type attribute1: bool
-    @cvar attribute2: Description for attribute2.
+    @var attribute2: Description for attribute2.
     @type attribute2: list(str)
     """
 
@@ -80,7 +80,7 @@ class SomeClass(object):
         @type arg1: str
         @param arg2: Description for arg2.
         @type arg2: CustomClass
-        @keyword kwarg1: Description for kwarg1.
+        @param kwarg1: Description for kwarg1.
         @type kwarg1: int
         """
         pass
@@ -122,10 +122,10 @@ class CustomClass(object):
         @todo: Checking more stuff.
         @reference: Some silly reference.
 
-        @return: Description for return.
+        @returns: Description for return.
         @rtype: int
 
-        @raise TypeError:
-        @raise ValueError:
+        @raises TypeError:
+        @raises ValueError:
         """
         pass
