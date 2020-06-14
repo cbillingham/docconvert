@@ -27,6 +27,8 @@ Currently, the managed styles in input/output are:
 
 - [google][3]
 - [numpy][7]
+- [epytext][1]
+- [reST][2] (re-Structured Text, as used by Sphinx)
 
 
 ## Getting Started
@@ -42,8 +44,8 @@ pip install docconvert
 ### Usage
 
 ```bash
-usage: docconvert [-h] [-i {guess,rest,epytext}] [-o {google}] [--in-place]
-                  [-c CONFIG] [-t THREADS] [-v]
+usage: docconvert [-h] [-i {guess,rest,epytext}] [-o {google,numpy,rest,epytext}]
+                  [--in-place] [-c CONFIG] [-t THREADS] [-v]
                   source
 
 positional arguments:
@@ -51,13 +53,11 @@ positional arguments:
 
 optional arguments:
   -h, --help            show this help message and exit
-  -i {epytext,guess,rest}, --input {epytext,guess,rest}
+  -i {guess,rest,epytext}, --input {guess,rest,epytext}
                         Input docstring style. (default: guess)
-  -o {google}, --output {google}
-                        Output docstring style to convert to. (default:
-                        google)
-  --in-place            Write the changes to the input file instead of
-                        printing diffs.
+  -o {google,numpy,rest,epytext}, --output {google,numpy,rest,epytext}
+                        Output docstring style to convert to. (default: google)
+  --in-place            Write the changes to the input file instead of printing diffs.
   -c CONFIG, --config CONFIG
                         Location of configuration file to use.
   -t THREADS, --threads THREADS

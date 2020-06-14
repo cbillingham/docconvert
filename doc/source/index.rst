@@ -18,6 +18,8 @@ Currently, the managed styles in input/output are:
 
 -  google_
 -  numpy_
+-  epytext_
+-  reST_ (re-Structured Text, as used by Sphinx)
 
 
 Contents

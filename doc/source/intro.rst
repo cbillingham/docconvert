@@ -17,31 +17,29 @@ Usage
 
 .. code::
 
-    usage: docconvert [-h] [-i {guess,rest,epytext}] [-o {google}] [--in-place]
-                      [-c CONFIG] [-t THREADS] [-v]
-                      source
+    usage: docconvert [-h] [-i {guess,rest,epytext}] [-o {google,numpy,rest,epytext}]
+                    [--in-place] [-c CONFIG] [-t THREADS] [-v]
+                    source
 
     positional arguments:
-      source                The directory or file to convert.
+    source                The directory or file to convert.
 
     optional arguments:
-    -h, --help              show this help message and exit
-    -i {epytext,guess,rest}, --input {epytext,guess,rest}
-                            Input docstring style. (default: guess)
-    -o {google}, --output {google}
-                            Output docstring style to convert to. (default:
-                            google)
-    --in-place              Write the changes to the input file instead of
-                            printing diffs.
+    -h, --help            show this help message and exit
+    -i {guess,rest,epytext}, --input {guess,rest,epytext}
+                          Input docstring style. (default: guess)
+    -o {google,numpy,rest,epytext}, --output {google,numpy,rest,epytext}
+                          Output docstring style to convert to. (default: google)
+    --in-place            Write the changes to the input file instead of printing diffs.
     -c CONFIG, --config CONFIG
-                            Location of configuration file to use.
+                          Location of configuration file to use.
     -t THREADS, --threads THREADS
-                            Number of threads to use. (default: cpu count)
-    -v, --verbose           Log more information.
+                          Number of threads to use. (default: cpu count)
+    -v, --verbose         Log more information.
 
 Examples:
 
-Convert files in `src/mypackage` to google using 4 threads.
+Convert files in ``src/mypackage`` to google using 4 threads.
 
 ::
 
