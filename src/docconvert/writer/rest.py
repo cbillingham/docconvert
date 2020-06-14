@@ -72,12 +72,10 @@ class RestWriter(BaseWriter):
                 keywords.append(arg)
             else:
                 args.append(arg)
-        if args:
-            for arg in args:
-                self.write_var(arg, "param")
-        if keywords:
-            for keyword in keywords:
-                self.write_var(keyword, "keyword", use_optional=False)
+        for arg in args:
+            self.write_var(arg, "param")
+        for keyword in keywords:
+            self.write_var(keyword, "keyword", use_optional=False)
 
     def write_attributes(self, element):
         """Write an attribute section in reST style.
