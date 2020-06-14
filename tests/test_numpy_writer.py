@@ -34,7 +34,7 @@ class TestNumpyWriter(object):
             "attr2", kind="int", desc=["Description.", "More description."]
         )
         self.doc.add_element(("end_quote", '"""'))
-        self.config.output.numpy.use_types = False
+        self.config.output.use_types = False
         writer = docconvert.writer.NumpyWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""\n',
@@ -104,7 +104,7 @@ class TestNumpyWriter(object):
             optional=True,
         )
         self.doc.add_element(("end_quote", '"""'))
-        self.config.output.numpy.use_keyword_section = True
+        self.config.output.separate_keywords = True
         writer = docconvert.writer.NumpyWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""This is a docstring.\n',
@@ -131,7 +131,7 @@ class TestNumpyWriter(object):
             optional=True,
         )
         self.doc.add_element(("end_quote", '"""'))
-        self.config.output.numpy.use_keyword_section = True
+        self.config.output.separate_keywords = True
         self.config.output.use_optional = True
         writer = docconvert.writer.NumpyWriter(self.doc, "", self.config)
         assert writer.write() == [

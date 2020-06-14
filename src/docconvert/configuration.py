@@ -26,8 +26,8 @@ DEFAULT_CONFIG = {
         "max_line_length": PEP8_MAX,
         "use_optional": False,
         "remove_type_back_ticks": BackTickRemovalOption.TRUE,
-        "google": {"use_keyword_section": False, "use_types": True},
-        "numpy": {"use_keyword_section": False, "use_types": True},
+        "use_types": True,
+        "separate_keywords": False,
     },
 }
 """Default Docconvert configuration settings.

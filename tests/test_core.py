@@ -3,6 +3,8 @@
 import os
 import tempfile
 
+import pytest
+
 import docconvert
 
 # local
@@ -33,7 +35,7 @@ class TestShebangScripts(object):
 
 class TestFindPythonFiles(object):
     def test_correctly_identify_files(self):
-        valid_file = os.path.join(test_resources.FIXTURES, "reST_docs.py")
+        valid_file = os.path.join(test_resources.FIXTURES, "rest_docs.py")
         invalid_file = os.path.join(test_resources.FIXTURES, "jython_script")
         files = docconvert.core.find_python_files(test_resources.FIXTURES)
         assert len(files) == 8
@@ -53,7 +55,7 @@ class TestFindPythonFiles(object):
 
     def test_file_ext(self):
         valid_file = os.path.join(test_resources.FIXTURES, "python_script")
-        invalid_file = os.path.join(test_resources.FIXTURES, "reST_docs.py")
+        invalid_file = os.path.join(test_resources.FIXTURES, "rest_docs.py")
         files = docconvert.core.find_python_files(
             test_resources.FIXTURES, file_ext=".txt"
         )
@@ -63,65 +65,35 @@ class TestFindPythonFiles(object):
 
 
 class TestConvert(object):
-    def test_convert_rest_to_google(self):
-        rest_path = os.path.join(test_resources.FIXTURES, "reST_docs.py")
-        google_path = os.path.join(test_resources.FIXTURES, "google_docs.py")
-        temp_rest_path = make_temp_file_copy(rest_path)
+    @pytest.mark.parametrize(
+        "input,output",
+        [
+            ("rest", "google"),
+            ("rest", "numpy"),
+            ("rest", "epytext"),
+            ("rest", "rest"),
+            ("epytext", "google"),
+            ("epytext", "numpy"),
+            ("epytext", "epytext"),
+            ("epytext", "rest"),
+        ],
+    )
+    def test_convert(self, input, output):
+        input_path = os.path.join(test_resources.FIXTURES, "{0}_docs.py".format(input))
+        output_path = os.path.join(
+            test_resources.FIXTURES, "{0}_docs.py".format(output)
+        )
+        convert_path = make_temp_file_copy(input_path)
         config = docconvert.configuration.DocconvertConfiguration.create_default()
-        config.input_style = "rest"
-        config.output_style = "google"
+        config.input_style = input
+        config.output_style = output
         try:
-            docconvert.core.convert_file(temp_rest_path, config, in_place=True)
-            with open(google_path) as google_file:
-                with open(temp_rest_path) as temp_rest_file:
-                    assert google_file.readlines() == temp_rest_file.readlines()
+            docconvert.core.convert_file(convert_path, config, in_place=True)
+            with open(output_path) as expected:
+                with open(convert_path) as converted:
+                    assert converted.readlines() == expected.readlines()
         finally:
-            os.remove(temp_rest_path)
-
-    def test_convert_epytext_to_google(self):
-        epytext_path = os.path.join(test_resources.FIXTURES, "epytext_docs.py")
-        google_path = os.path.join(test_resources.FIXTURES, "google_docs.py")
-        temp_epytext_path = make_temp_file_copy(epytext_path)
-        config = docconvert.configuration.DocconvertConfiguration.create_default()
-        config.input_style = "epytext"
-        config.output_style = "google"
-        try:
-            docconvert.core.convert_file(temp_epytext_path, config, in_place=True)
-            with open(google_path) as google_file:
-                with open(temp_epytext_path) as temp_epytext_file:
-                    assert google_file.readlines() == temp_epytext_file.readlines()
-        finally:
-            os.remove(temp_epytext_path)
-
-    def test_convert_rest_to_numpy(self):
-        rest_path = os.path.join(test_resources.FIXTURES, "reST_docs.py")
-        numpy_path = os.path.join(test_resources.FIXTURES, "numpy_docs.py")
-        temp_rest_path = make_temp_file_copy(rest_path)
-        config = docconvert.configuration.DocconvertConfiguration.create_default()
-        config.input_style = "rest"
-        config.output_style = "numpy"
-        try:
-            docconvert.core.convert_file(temp_rest_path, config, in_place=True)
-            with open(numpy_path) as numpy_file:
-                with open(temp_rest_path) as temp_rest_file:
-                    assert numpy_file.readlines() == temp_rest_file.readlines()
-        finally:
-            os.remove(temp_rest_path)
-
-    def test_convert_epytext_to_numpy(self):
-        epytext_path = os.path.join(test_resources.FIXTURES, "epytext_docs.py")
-        numpy_path = os.path.join(test_resources.FIXTURES, "numpy_docs.py")
-        temp_epytext_path = make_temp_file_copy(epytext_path)
-        config = docconvert.configuration.DocconvertConfiguration.create_default()
-        config.input_style = "epytext"
-        config.output_style = "numpy"
-        try:
-            docconvert.core.convert_file(temp_epytext_path, config, in_place=True)
-            with open(numpy_path) as numpy_file:
-                with open(temp_epytext_path) as temp_epytext_file:
-                    assert numpy_file.readlines() == temp_epytext_file.readlines()
-        finally:
-            os.remove(temp_epytext_path)
+            os.remove(convert_path)
 
 
 def make_temp_file_copy(source_path):

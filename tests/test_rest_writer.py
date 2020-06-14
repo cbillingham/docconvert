@@ -1,9 +1,9 @@
-"""Unit tests for GoogleWriter."""
+"""Unit tests for RestWriter."""
 
 import docconvert
 
 
-class TestGoogleWriter(object):
+class TestRestWriter(object):
     @classmethod
     def setup_method(cls):
         cls.doc = docconvert.parser.Docstring()
@@ -15,13 +15,12 @@ class TestGoogleWriter(object):
         self.doc.add_attribute("attr1", kind="str")
         self.doc.add_attribute("attr2", desc=["Description.", "More description."])
         self.doc.add_element(("end_quote", '"""'))
-        writer = docconvert.writer.GoogleWriter(self.doc, "    ", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "    ", self.config)
         assert writer.write() == [
             '    """This is a docstring.\n',
-            "\n",
-            "    Attributes:\n",
-            "        attr1 (str)\n",
-            "        attr2: Description. More description.\n",
+            "    :var attr1:\n",
+            "    :vartype attr1: str\n",
+            "    :var attr2: Description. More description.\n",
             '    """\n',
         ]
 
@@ -33,12 +32,11 @@ class TestGoogleWriter(object):
         )
         self.doc.add_element(("end_quote", '"""'))
         self.config.output.use_types = False
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""\n',
-            "Attributes:\n",
-            "    attr1\n",
-            "    attr2: Description. More description.\n",
+            ":var attr1:\n",
+            ":var attr2: Description. More description.\n",
             '"""\n',
         ]
 
@@ -53,13 +51,13 @@ class TestGoogleWriter(object):
             optional=True,
         )
         self.doc.add_element(("end_quote", '"""'))
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""This is a docstring.\n',
-            "\n",
-            "Args:\n",
-            "    arg1 (str)\n",
-            "    arg2 (int): Description. More description.\n",
+            ":param arg1:\n",
+            ":type arg1: str\n",
+            ":param arg2: Description. More description.\n",
+            ":type arg2: int\n",
             '"""\n',
         ]
 
@@ -75,13 +73,13 @@ class TestGoogleWriter(object):
         )
         self.doc.add_element(("end_quote", '"""'))
         self.config.output.use_optional = True
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""This is a docstring.\n',
-            "\n",
-            "Args:\n",
-            "    arg1 (optional)\n",
-            "    arg2 (int, optional): Description. More description.\n",
+            ":param arg1:\n",
+            ":type arg1: optional\n",
+            ":param arg2: Description. More description.\n",
+            ":type arg2: int, optional\n",
             '"""\n',
         ]
 
@@ -97,15 +95,13 @@ class TestGoogleWriter(object):
         )
         self.doc.add_element(("end_quote", '"""'))
         self.config.output.separate_keywords = True
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""This is a docstring.\n',
-            "\n",
-            "Args:\n",
-            "    arg1 (str)\n",
-            "\n",
-            "Keyword Args:\n",
-            "    arg2 (int): Description. More description.\n",
+            ":param arg1:\n",
+            ":type arg1: str\n",
+            ":keyword arg2: Description. More description.\n",
+            ":type arg2: int\n",
             '"""\n',
         ]
 
@@ -122,13 +118,13 @@ class TestGoogleWriter(object):
         self.doc.add_element(("end_quote", '"""'))
         self.config.output.separate_keywords = True
         self.config.output.use_optional = True
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""This is a docstring.\n',
-            "\n",
-            "Keyword Args:\n",
-            "    arg1 (str)\n",
-            "    arg2 (int): Description. More description.\n",
+            ":keyword arg1:\n",
+            ":type arg1: str\n",
+            ":keyword arg2: Description. More description.\n",
+            ":type arg2: int\n",
             '"""\n',
         ]
 
@@ -137,12 +133,11 @@ class TestGoogleWriter(object):
         self.doc.add_raises("TypeError")
         self.doc.add_raises("KeyError", desc=["Description.", "More description."])
         self.doc.add_element(("end_quote", '"""'))
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""\n',
-            "Raises:\n",
-            "    TypeError\n",
-            "    KeyError: Description. More description.\n",
+            ":raises TypeError:\n",
+            ":raises KeyError: Description. More description.\n",
             '"""\n',
         ]
 
@@ -150,11 +145,11 @@ class TestGoogleWriter(object):
         self.doc.add_element(("start_quote", '"""'))
         self.doc.add_return("str", desc=["Description.", "More description."])
         self.doc.add_element(("end_quote", '"""'))
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""\n',
-            "Returns:\n",
-            "    str: Description. More description.\n",
+            ":returns: Description. More description.\n",
+            ":rtype: str\n",
             '"""\n',
         ]
 
@@ -167,26 +162,15 @@ class TestGoogleWriter(object):
         self.doc.add_element(("seealso", ["Description."]))
         self.doc.add_element(("todo", ["Description."]))
         self.doc.add_element(("end_quote", '"""'))
-        writer = docconvert.writer.GoogleWriter(self.doc, "", self.config)
+        writer = docconvert.writer.RestWriter(self.doc, "", self.config)
         assert writer.write() == [
             '"""\n',
-            "Note:\n",
-            "    Description.\n",
+            ".. note:: Description.\n",
             "    More description.\n",
-            "\n",
-            "Example:\n",
-            "    Description.\n",
-            "\n",
-            "References:\n",
-            "    Description.\n",
-            "\n",
-            "Warning:\n",
-            "    Description.\n",
-            "\n",
-            "See Also:\n",
-            "    Description.\n",
-            "\n",
-            "Todo:\n",
-            "    Description.\n",
+            ".. example:: Description.\n",
+            ".. reference:: Description.\n",
+            ".. warning:: Description.\n",
+            ".. seealso:: Description.\n",
+            ".. todo:: Description.\n",
             '"""\n',
         ]

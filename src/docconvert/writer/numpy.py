@@ -27,7 +27,6 @@ class NumpyWriter(GoogleWriter):
             **kwargs: Keyword arguments to pass on to super constructor.
         """
         super(NumpyWriter, self).__init__(doc, indent, config, **kwargs)
-        self.local_config = self.config.output.numpy
 
     def get_previous_element(self):
         """Get the previously written element.
@@ -91,7 +90,7 @@ class NumpyWriter(GoogleWriter):
         optional = ""
         if use_optional and self.config.output.use_optional and var.optional:
             optional = "optional"
-        kind = var.kind if self.local_config.use_types else ""
+        kind = var.kind if self.config.output.use_types else ""
         kind = self.remove_back_ticks(kind)
         kind = ", ".join(filter(None, (kind, optional)))
         if kind:
@@ -155,4 +154,6 @@ class NumpyWriter(GoogleWriter):
                 self.write_line("", force=True)
 
         for line in lines:
-            self.write_line(line)
+            # Append second line adjacent to quotes if first_line specified in config
+            append = self._elements_written == 1 and self.config.output.first_line
+            self.write_line(line, append=append)

@@ -83,10 +83,8 @@ Example configuration file:
             "max_line_length": 72,
             "use_optional": false,
             "remove_type_back_ticks": "true",
-            "google": {
-                "use_keyword_section": false,
-                "use_types": true
-            }
+            "use_types": true,
+            "separate_keywords": false
         }
     }
 
@@ -227,10 +225,8 @@ use\_optional
 If True, append ``optional`` to parameter types that are keywords.
 Defaults to False.
 
-| *Note:*
-| *Google and Numpy output allow you to specify a keyword section. If a
-  keyword section is used, optional is dropped from all type definitions.*
-|
+  | *Note:*
+  | *If separate_keywords is True, optional is dropped from all type definitions.*
 
 remove\_type\_back\_ticks
 '''''''''''''''''''''''''
@@ -257,34 +253,24 @@ back ticks around type definitions are removed. This option has 3 modes:
   - ``:py:class:`Test``` becomes ``Test``
   - ``lot`s of `bool`s`` becomes ``lot`s of bools``
 
-google
-''''''
+use\_types
+''''''''''
 
-Google docstring output configuration options.
+::
 
-use_keyword_section
-  Use **Keyword Args** section for all keyword-arguments. Defaults to
-  False. If set to False, all keyword-arguments will be placed under
-  **Args** section.
+    "use_types": true
 
-use_types
-  Use types in argument output. Defaults to True. If False, argument,
-  keyword-argument, and attribute type definitions will be skipped.
-  This could be turned False for Python 3, where Sphinx recognizes
-  annotations.
+Use types in argument output. Defaults to True. If False, argument,
+keyword-argument, and attribute type definitions will be skipped.
+This could be turned False for Python 3, where Sphinx recognizes
+annotations.
 
-numpy
-''''''
+separate\_keywords
+''''''''''''''''''
 
-Numpy docstring output configuration options.
+::
 
-use_keyword_section
-  Use **Keyword Arguments** section for all keyword-arguments. Defaults to
-  False. If set to False, all keyword-arguments will be placed under
-  **Parameters** section.
+    "separate_keywords": false
 
-use_types
-  Use types in argument output. Defaults to True. If False, argument,
-  keyword-argument, and attribute type definitions will be skipped.
-  This could be turned False for Python 3, where Sphinx recognizes
-  annotations.
+Separate keyword-arguments into their own docstring section. Defaults to False.
+If set to False, all keyword-arguments are documented with the other arguments.

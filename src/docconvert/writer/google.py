@@ -27,7 +27,6 @@ class GoogleWriter(BaseWriter):
             **kwargs: Keyword arguments to pass on to super constructor.
         """
         super(GoogleWriter, self).__init__(doc, indent, config, **kwargs)
-        self.local_config = self.config.output.google
 
     def write_section_header(self, header):
         """Writes a google section header to output lines.
@@ -40,7 +39,7 @@ class GoogleWriter(BaseWriter):
         )
         if not is_first_section and self.output[-1] != "\n":
             self.write_line("")
-        self.write_line("{0}:".format(header.title()), append=False)
+        self.write_line("{0}:".format(header.title()))
 
     def write_directive(self, element):
         """Writes a google directive section to output lines.
@@ -60,7 +59,7 @@ class GoogleWriter(BaseWriter):
         """
         args, keywords = [], []
         for arg in self.doc.arg_fields.values():
-            if self.local_config.use_keyword_section and arg.optional:
+            if self.config.output.separate_keywords and arg.optional:
                 keywords.append(arg)
             else:
                 args.append(arg)
@@ -90,7 +89,7 @@ class GoogleWriter(BaseWriter):
         optional = ""
         if use_optional and self.config.output.use_optional and var.optional:
             optional = "optional"
-        kind = var.kind if self.local_config.use_types else ""
+        kind = var.kind if self.config.output.use_types else ""
         kind = self.remove_back_ticks(kind)
         kind = ", ".join(filter(None, (kind, optional)))
         if kind:
