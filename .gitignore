@@ -15,6 +15,7 @@ dist/
 
 # Documentation
 doc/build
+doc/source/_build
 
 # Development files
 Pipfile

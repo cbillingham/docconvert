@@ -331,15 +331,15 @@ class BaseWriter(object):
         - **TRUE**: Back ticks will be removed, except from sphinx
           directives. For example:
 
-          - ```list` of `str``` becomes ``list of str``
-          - ``:py:class:`Test``` stays as ``:py:class:`Test```
+          - `` `list` of `str` `` becomes ``list of str``
+          - `` :py:class:`Test` `` stays as `` :py:class:`Test` ``
           - ``lot`s of `bool`s`` becomes ``lot`s of bools``
 
         - **DIRECTIVES**: All back ticks, including directives, will be
           removed. For example:
 
-          - ```list` of `str``` becomes ``list of str``
-          - ``:py:class:`Test``` becomes ``Test``
+          - `` `list` of `str` `` becomes ``list of str``
+          - `` :py:class:`Test` `` becomes ``Test``
           - ``lot`s of `bool`s`` becomes ``lot`s of bools``
 
         Args:
