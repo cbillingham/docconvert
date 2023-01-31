@@ -4,6 +4,12 @@ Release Notes
 Versions follow `Semantic Versioning <https://semver.org/>`_
 (``<major>.<minor>.<patch>``).
 
+v2.1.0 (2023-01-30)
+-------------------
+Features
+^^^^^^^^
+* Support async function definitions in docstring parsing.
+
 v2.0.0 (2020-07-11)
 -------------------
 
