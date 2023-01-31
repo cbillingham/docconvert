@@ -135,6 +135,22 @@ class TestPy3ModuleParser(object):
         assert self.parser.docstrings[0].kwarg is None
         assert self.parser.docstrings[1].kwarg == "kwargs"
 
+    def test_async_def(self):
+        """Ensure we handle parsing async function defs."""
+        lines = get_fixture_lines("py3_async.py")
+        parser = docconvert.parser.ModuleParser(lines)
+        parser.parse()
+
+        assert len(parser.docstrings) == 4
+        assert parser.docstrings[0].start == 0
+        assert parser.docstrings[0].end == 1
+        assert parser.docstrings[1].start == 5
+        assert parser.docstrings[1].end == 15
+        assert parser.docstrings[2].start == 19
+        assert parser.docstrings[2].end == 28
+        assert parser.docstrings[3].start == 33
+        assert parser.docstrings[3].end == 44
+
 
 class TestTokenStream(object):
 

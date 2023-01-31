@@ -305,6 +305,15 @@ class ModuleParser(object):
             self._generic_visit(child)
         self._siblings.pop()
 
+    def _visit_asyncfunctiondef(self, node):
+        """Add function docstring if it exists.
+
+        Args:
+            node (ast.AsyncFunctionDef): The ast node defining the start of
+                a function definition.
+        """
+        return self._visit_functiondef(node)
+
     def _visit_classdef(self, node):
         """Add class docstring if it exists.
 
