@@ -1,6 +1,6 @@
 # Docconvert
 
-[![Build Status](https://github.com/cbillingham/docconvert/actions/workflows/test.yaml/badge.svg)](https://github.com/cbillingham/docconvert/actions/workflows/test.yaml)
+[![Build Status](https://github.com/cbillingham/docconvert/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/cbillingham/docconvert/actions/workflows/test.yaml)
 [![Documentation](https://readthedocs.org/projects/docconvert/badge/?version=latest)](https://docconvert.readthedocs.io)
 [![PyPI Version](https://img.shields.io/pypi/v/docconvert.svg)](https://pypi.org/project/docconvert/)
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/docconvert.svg)](https://pypi.org/project/docconvert/)
