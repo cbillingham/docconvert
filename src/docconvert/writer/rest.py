@@ -34,6 +34,7 @@ class RestWriter(BaseWriter):
             if i == 0:
                 self.write_desc([line], header=header, indent=0)
             else:
+                line = self.convert_epytext_markup(line)
                 self.write_line(line, indent=1)
 
     def write_var(self, var, field, type_field="type", use_optional=True):
@@ -51,6 +52,7 @@ class RestWriter(BaseWriter):
             optional = "optional"
         kind = var.kind if self.config.output.use_types else ""
         kind = self.remove_back_ticks(kind)
+        kind = self.convert_epytext_markup(kind, in_type=True)
         kind = ", ".join(filter(None, (kind, optional)))
 
         header = self._var_token.format(field, var.name)
@@ -94,6 +96,7 @@ class RestWriter(BaseWriter):
         """
         for var in self.doc.raise_fields:
             kind = self.remove_back_ticks(var.kind)
+            kind = self.convert_epytext_markup(kind, in_type=True)
             header = self._var_token.format("raises", kind)
             self.write_desc(var.desc, header=header, indent=0)
 
@@ -105,6 +108,7 @@ class RestWriter(BaseWriter):
         """
         kind = self.doc.return_field.kind if self.config.output.use_types else ""
         kind = self.remove_back_ticks(kind)
+        kind = self.convert_epytext_markup(kind, in_type=True)
         if self.doc.return_field.desc:
             header = self._field_token.format("returns")
             self.write_desc(self.doc.return_field.desc, header=header, indent=0)
