@@ -52,9 +52,9 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"docconvert"
-copyright = u"2018, Ashley Whetter, Cameron Billingham"
-author = u"2018, Cameron Billingham"
+project = "docconvert"
+copyright = "2018, Ashley Whetter, Cameron Billingham"
+author = "2018, Cameron Billingham"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -197,8 +197,8 @@ latex_documents = [
     (
         master_doc,
         "docconvert.tex",
-        u"docconvert Documentation",
-        u"Cameron Billingham",
+        "docconvert Documentation",
+        "Cameron Billingham",
         "manual",
     )
 ]

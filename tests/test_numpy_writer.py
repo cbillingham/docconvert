@@ -69,6 +69,30 @@ class TestNumpyWriter(object):
             '"""\n',
         ]
 
+    def test_write_args_without_types(self):
+        self.doc.add_element(("start_quote", '"""'))
+        self.doc.add_element(("raw", ["This is a docstring."]))
+        self.doc.add_arg("arg1", kind="str")
+        self.doc.add_arg(
+            "arg2",
+            kind="int",
+            desc=["Description.", "More description."],
+            optional=True,
+        )
+        self.doc.add_element(("end_quote", '"""'))
+        self.config.output.use_types = False
+        writer = docconvert.writer.NumpyWriter(self.doc, "", self.config)
+        assert writer.write() == [
+            '"""This is a docstring.\n',
+            "\n",
+            "Parameters\n",
+            "----------\n",
+            "arg1\n",
+            "arg2\n",
+            "    Description. More description.\n",
+            '"""\n',
+        ]
+
     def test_write_args_with_optional(self):
         self.doc.add_element(("start_quote", '"""'))
         self.doc.add_element(("raw", ["This is a docstring."]))

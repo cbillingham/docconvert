@@ -71,6 +71,7 @@ class NumpyWriter(GoogleWriter):
         """
         self.write_section_header(self._directive_title[element[0]])
         for line in element[1]:
+            line = self.convert_epytext_markup(line)
             self.write_line(line)
 
     def write_var(self, var, use_optional=True):
@@ -92,6 +93,7 @@ class NumpyWriter(GoogleWriter):
             optional = "optional"
         kind = var.kind if self.config.output.use_types else ""
         kind = self.remove_back_ticks(kind)
+        kind = self.convert_epytext_markup(kind, in_type=True)
         kind = ", ".join(filter(None, (kind, optional)))
         if kind:
             kind = " : {0}".format(kind)
@@ -110,6 +112,7 @@ class NumpyWriter(GoogleWriter):
         self.write_section_header("Raises")
         for var in self.doc.raise_fields:
             kind = self.remove_back_ticks(var.kind)
+            kind = self.convert_epytext_markup(kind, in_type=True)
             if kind:
                 self.write_line(kind)
             if var.desc:
@@ -123,6 +126,7 @@ class NumpyWriter(GoogleWriter):
         """
         self.write_section_header("Returns")
         kind = self.remove_back_ticks(self.doc.return_field.kind)
+        kind = self.convert_epytext_markup(kind, in_type=True)
         # Return type is not optional for numpy docstrings
         if not kind:
             kind = "unknown"
@@ -156,4 +160,5 @@ class NumpyWriter(GoogleWriter):
         for line in lines:
             # Append second line adjacent to quotes if first_line specified in config
             append = self._elements_written == 1 and self.config.output.first_line
+            line = self.convert_epytext_markup(line)
             self.write_line(line, append=append)

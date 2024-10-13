@@ -5,7 +5,7 @@ import logging
 
 from . import parser
 from . import writer
-from .writer.base import BackTickRemovalOption
+from .writer.base import BackTickRemovalOption, EpytextMarkupConvertOption
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -25,6 +25,7 @@ DEFAULT_CONFIG = {
         "realign": True,
         "max_line_length": PEP8_MAX,
         "use_optional": False,
+        "convert_epytext_markup": EpytextMarkupConvertOption.FALSE,
         "remove_type_back_ticks": BackTickRemovalOption.TRUE,
         "use_types": True,
         "separate_keywords": False,

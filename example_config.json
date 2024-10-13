@@ -12,6 +12,7 @@
         "realign": true,
         "max_line_length": 72,
         "use_optional": false,
+        "convert_epytext_markup": "false",
         "remove_type_back_ticks": "true",
         "use_types": true,
         "separate_keywords": false

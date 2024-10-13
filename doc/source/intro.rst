@@ -80,6 +80,7 @@ Example configuration file:
             "realign": true,
             "max_line_length": 72,
             "use_optional": false,
+            "convert_epytext_markup": "false",
             "remove_type_back_ticks": "true",
             "use_types": true,
             "separate_keywords": false
@@ -251,6 +252,33 @@ back ticks around type definitions are removed. This option has 3 modes:
   - ``:py:class:`Test``` becomes ``Test``
   - ``lot`s of `bool`s`` becomes ``lot`s of bools``
 
+convert\_epytext\_markup
+''''''''''''''''''''''''
+
+::
+
+    "convert_epytext_markup": "false"
+
+Convert epytext markup to reST syntax. Defaults to "false". If this is on,
+epytext markup brackets in docstrings will be converted to reST syntax for
+supported output formats (all except epytext). See `epytext markup`_.
+This option has 3 modes:
+
+- ``"false"``: No conversion happens.
+- ``"true"``: Epytext markup is converted in all text. For example:
+
+  - ``I{text}`` becomes ``*text*``
+  - ``B{text}`` stays as ``**text**``
+  - ``C{source code}`` becomes ``` ``source code`` ```
+  - ``M{m*x+b}`` becomes ``:math:`m*x+b```
+
+- ``"types"``: All epytext markup is converted. In addition, in type strings,
+  we fully remove source code markup wrapping (``C{}``). For example:
+
+  - ``I{text}`` becomes ``*text*``
+  - ``B{text}`` stays as ``**text**``
+  - ``C{MyType}`` becomes ``MyType``
+
 use\_types
 ''''''''''
 
@@ -258,10 +286,11 @@ use\_types
 
     "use_types": true
 
-Use types in argument output. Defaults to True. If False, argument,
-keyword-argument, and attribute type definitions will be skipped.
-This could be turned False for Python 3, where Sphinx recognizes
-annotations.
+Use types in variable output. Defaults to True. If False, argument,
+keyword-argument, attribute, and return type definitions will be skipped
+for output formats that support it (google and reST).
+This can be turned False for Python 3, where Sphinx recognizes type
+annotations from source code. See `type annotations`_.
 
 separate\_keywords
 ''''''''''''''''''
@@ -272,3 +301,7 @@ separate\_keywords
 
 Separate keyword-arguments into their own docstring section. Defaults to False.
 If set to False, all keyword-arguments are documented with the other arguments.
+
+
+.. _`type annotations`: https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#type-annotations
+.. _`epytext markup`: http://epydoc.sourceforge.net/manual-epytext.html#basic-inline-markup
