@@ -342,10 +342,10 @@ class ModuleParser(object):
             start, end = _get_string_start_end(next_sibling.value)
             self.docstrings.append(default_docstring(start, end, self.lines[start:end]))
             next(siblings)  # Consume the next sibling since we already processed it
-    
+
     def _visit_children(self, node):
         """Iterate children of this node and process them.
-        
+
         Args:
             node (ast.Node): An AST node to iterate under.
         """
@@ -460,7 +460,7 @@ def _get_string_start_end(node):
 
 class _Peekable(object):
     """Make a peekable version of a generator.
-    
+
     Can peek at next item without incrementing main iterator.
     """
 

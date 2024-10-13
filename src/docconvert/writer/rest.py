@@ -103,7 +103,8 @@ class RestWriter(BaseWriter):
         Args:
             element (tuple): The docstring element.
         """
-        kind = self.remove_back_ticks(self.doc.return_field.kind)
+        kind = self.doc.return_field.kind if self.config.output.use_types else ""
+        kind = self.remove_back_ticks(kind)
         if self.doc.return_field.desc:
             header = self._field_token.format("returns")
             self.write_desc(self.doc.return_field.desc, header=header, indent=0)

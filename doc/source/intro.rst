@@ -259,9 +259,10 @@ use\_types
     "use_types": true
 
 Use types in argument output. Defaults to True. If False, argument,
-keyword-argument, and attribute type definitions will be skipped.
-This could be turned False for Python 3, where Sphinx recognizes
-annotations.
+keyword-argument, attribute, and return type definitions will be skipped
+for output formats that support it (google and reST).
+This can be turned False for Python 3, where Sphinx recognizes type
+annotations from source code. See `type annotations`_.
 
 separate\_keywords
 ''''''''''''''''''
@@ -272,3 +273,6 @@ separate\_keywords
 
 Separate keyword-arguments into their own docstring section. Defaults to False.
 If set to False, all keyword-arguments are documented with the other arguments.
+
+
+.. _`type annotations`: https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#type-annotations
