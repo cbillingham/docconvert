@@ -278,11 +278,7 @@ class ModuleParser(object):
             start, end = docstring
             self.docstrings.append(default_docstring(start, end, self.lines[start:end]))
 
-        children = ast.iter_child_nodes(node)
-        self._siblings.append(children)
-        for child in children:
-            self._generic_visit(child)
-        self._siblings.pop()
+        self._visit_children(node)
 
     def _visit_functiondef(self, node):
         """Add function docstring if it exists.
@@ -299,11 +295,7 @@ class ModuleParser(object):
                 RawDocstring(start, end, self.lines[start:end], *all_args)
             )
 
-        children = ast.iter_child_nodes(node)
-        self._siblings.append(children)
-        for child in children:
-            self._generic_visit(child)
-        self._siblings.pop()
+        self._visit_children(node)
 
     def _visit_asyncfunctiondef(self, node):
         """Add function docstring if it exists.
@@ -326,11 +318,7 @@ class ModuleParser(object):
             start, end = docstring
             self.docstrings.append(default_docstring(start, end, self.lines[start:end]))
 
-        children = ast.iter_child_nodes(node)
-        self._siblings.append(children)
-        for child in children:
-            self._generic_visit(child)
-        self._siblings.pop()
+        self._visit_children(node)
 
     def _visit_assign(self, node):
         """Add an attribute docstring, if the node is an attribute assignment.
@@ -339,10 +327,23 @@ class ModuleParser(object):
             node (ast.Assign): The ast node defining an assignment.
         """
         siblings = self._siblings[-1]
-        next_sibling = next(siblings, None)
+        next_sibling = siblings.peek(None)
         if isinstance(next_sibling, ast.Expr) and _is_string_node(next_sibling.value):
             start, end = _get_string_start_end(next_sibling.value)
             self.docstrings.append(default_docstring(start, end, self.lines[start:end]))
+            next(siblings)  # Consume the next sibling since we already processed it
+    
+    def _visit_children(self, node):
+        """Iterate children of this node and process them.
+        
+        Args:
+            node (ast.Node): An AST node to iterate under.
+        """
+        children = _Peekable(ast.iter_child_nodes(node))
+        self._siblings.append(children)
+        for child in children:
+            self._generic_visit(child)
+        self._siblings.pop()
 
     def _generic_visit(self, node):
         """Visit a node.
@@ -360,11 +361,7 @@ class ModuleParser(object):
         # Skip anything that creates a new scope because we only want
         # to visit Assign nodes that are in modules or classes.
         elif node_type not in ("lambda", "genexpr"):
-            children = ast.iter_child_nodes(node)
-            self._siblings.append(children)
-            for child in children:
-                self._generic_visit(child)
-            self._siblings.pop()
+            self._visit_children(node)
 
     def parse(self):
         """Parse python file for docstrings.
@@ -449,3 +446,35 @@ def _get_string_start_end(node):
         start = node.lineno - 1
         end = node.end_lineno
     return start, end
+
+
+class _Peekable(object):
+    """Make a peekable version of a generator.
+    
+    Can peek at next item without incrementing main iterator.
+    """
+
+    def __init__(self, generator):
+        self.generator = generator
+        self.peeked = False
+        self.peek_value = None
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.peeked:
+            self.peeked = False
+            return self.peek_value
+        else:
+            return next(self.generator)
+
+    def peek(self, default=None):
+        """Peak at next item in generator."""
+        if not self.peeked:
+            try:
+                self.peek_value = next(self.generator)
+                self.peeked = True
+            except StopIteration:
+                return default
+        return self.peek_value
