@@ -348,6 +348,8 @@ class BaseWriter(object):
         Returns:
             str: The string with replaceable back ticks removed.
         """
+        if not text:
+            return text
         removal_option = BackTickRemovalOption.from_bool_or_str(
             self.config.output.remove_type_back_ticks
         )

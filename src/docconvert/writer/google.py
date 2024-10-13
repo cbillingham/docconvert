@@ -132,8 +132,12 @@ class GoogleWriter(BaseWriter):
         Args:
             element (tuple): The docstring element.
         """
+        kind = self.doc.return_field.kind if self.config.output.use_types else ""
+        kind = self.remove_back_ticks(kind)
+        if not kind and not self.doc.return_field.desc:
+            return
+
         self.write_section_header("Returns")
-        kind = self.remove_back_ticks(self.doc.return_field.kind)
         if self.doc.return_field.desc:
             header = "{0}:".format(kind) if kind else None
             self.write_desc(self.doc.return_field.desc, header=header, hanging=False)
