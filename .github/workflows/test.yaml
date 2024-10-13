@@ -17,7 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         version: [
-          {"python": "2.7", "toxenv": "py27-sdist"},
           {"python": "3.9", "toxenv": "py39-sdist"},
           {"python": "3.10", "toxenv": "py310-sdist"},
           {"python": "3.11", "toxenv": "py311-sdist"},

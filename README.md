@@ -8,7 +8,7 @@
 
 Update or convert docstrings in existing Python files.
 
-This Python (2.7+/3.6+) module and script intends to help Python programmers to
+This Python (3.9+) module and script intends to help Python programmers to
 enhance internal code documentation using docstrings.
 It is useful to harmonize or change a project docstring style format.
 
@@ -103,6 +103,12 @@ If you would like to contribute, please take a look at the
 We use [SemVer][4] for versioning.
 For the versions available, see the tags on the repository.
 
+### Python 2.7
+
+We tried really hard to have this package support both Python 2 and 3 for a
+long time. We've dropped Python 2 support officially. Its just become
+cumbersome to test with. However, the code will probably still work in
+Python 2.7+ *I think*. Good luck!
 
 ## License
 
