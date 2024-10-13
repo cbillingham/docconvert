@@ -38,7 +38,7 @@ class TestFindPythonFiles(object):
         valid_file = os.path.join(test_resources.FIXTURES, "rest_docs.py")
         invalid_file = os.path.join(test_resources.FIXTURES, "jython_script")
         files = docconvert.core.find_python_files(test_resources.FIXTURES)
-        assert len(files) == 10
+        assert len(files) == 11
         assert valid_file in files
         assert invalid_file not in files
 

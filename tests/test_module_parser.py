@@ -193,6 +193,8 @@ class TestTokenStream(object):
 
 
 class TestIssues(object):
+    """Tests for issues that have been reported."""
+
     def test_func_after_assign(self):
         """Test bug where we were skipping function defs after assignments."""
         lines = get_fixture_lines("func_after_assign.py")
@@ -201,3 +203,10 @@ class TestIssues(object):
         assert len(parser.docstrings) == 3
         assert parser.docstrings[2].start == 13
         assert parser.docstrings[2].end == 20
+
+    def test_indentation_error(self):
+        """Make sure we handle IndentationError with valid python syntax."""
+        lines = get_fixture_lines("indent_error.py")
+        parser = docconvert.parser.ModuleParser(lines)
+        parser.parse()
+        assert len(parser.docstrings) == 1

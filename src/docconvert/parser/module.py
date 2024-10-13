@@ -110,6 +110,13 @@ class TokenStream(object):
     def next(self):
         """Gets the next tokens and increments the current token.
 
+        Our tokenize generator can return an IndentationError because
+        we can start parsing at any line in the file. The lines are valid
+        python syntax, but without the indentation context from previous
+        lines, tokenize will assume the indentation is incorrect. In
+        these cases, we catch the exception and return None to stop
+        iteration.
+
         Returns:
             Token: The current token.
 
@@ -119,7 +126,10 @@ class TokenStream(object):
         if not self.current:
             raise StopIteration
         current = self.current
-        new_token = next(self._generator, None)
+        try:
+            new_token = next(self._generator, None)
+        except IndentationError:
+            new_token = None
         self.current = Token(*new_token) if new_token else None
         return current
 
