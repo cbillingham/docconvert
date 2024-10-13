@@ -251,3 +251,48 @@ class TestBaseWriter(object):
         writer = MyWriter(self.doc, "", self.config)
         with pytest.raises(docconvert.writer.base.InvalidDocstringElementError):
             writer.write()
+
+    def test_remove_backticks(self):
+        self.config.output.remove_type_back_ticks = "true"
+        writer = MyWriter(self.doc, "", self.config)
+        assert writer.remove_back_ticks("`list` of `str`") == "list of str"
+        assert writer.remove_back_ticks("`lots` of bool`s") == "lots of bool`s"
+        assert writer.remove_back_ticks(":py:class:`Test`") == ":py:class:`Test`"
+
+        self.config.output.remove_type_back_ticks = "directives"
+        writer = MyWriter(self.doc, "", self.config)
+        assert writer.remove_back_ticks(":py:class:`Test`") == "Test"
+
+    def test_convert_epytext_markup(self):
+        self.config.output.convert_epytext_markup = "true"
+        writer = MyWriter(self.doc, "", self.config)
+        assert (
+            writer.convert_epytext_markup("Testing I{epytext markup}")
+            == "Testing *epytext markup*"
+        )
+        assert (
+            writer.convert_epytext_markup("Testing B{epytext markup}")
+            == "Testing **epytext markup**"
+        )
+        assert (
+            writer.convert_epytext_markup("Testing M{epytext markup}")
+            == "Testing :math:`epytext markup`"
+        )
+        assert (
+            writer.convert_epytext_markup("Testing C{epytext markup}")
+            == "Testing ``epytext markup``"
+        )
+        assert (
+            writer.convert_epytext_markup("Testing C{epytext markup}", in_type=True)
+            == "Testing ``epytext markup``"
+        )
+
+        self.config.output.convert_epytext_markup = "types"
+        writer = MyWriter(self.doc, "", self.config)
+        assert (
+            writer.convert_epytext_markup("Testing C{MyType}") == "Testing ``MyType``"
+        )
+        assert (
+            writer.convert_epytext_markup("Testing C{MyType}", in_type=True)
+            == "Testing MyType"
+        )

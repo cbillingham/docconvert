@@ -49,6 +49,7 @@ class GoogleWriter(BaseWriter):
         """
         self.write_section_header(self._directive_title[element[0]])
         for line in element[1]:
+            line = self.convert_epytext_markup(line)
             self.write_line(line, indent=1)
 
     def write_args(self, element):
@@ -91,6 +92,7 @@ class GoogleWriter(BaseWriter):
             optional = "optional"
         kind = var.kind if self.config.output.use_types else ""
         kind = self.remove_back_ticks(kind)
+        kind = self.convert_epytext_markup(kind, in_type=True)
         kind = ", ".join(filter(None, (kind, optional)))
         if kind:
             kind = " ({0})".format(kind)
@@ -120,6 +122,7 @@ class GoogleWriter(BaseWriter):
         self.write_section_header("Raises")
         for var in self.doc.raise_fields:
             kind = self.remove_back_ticks(var.kind)
+            kind = self.convert_epytext_markup(kind, in_type=True)
             if var.desc:
                 header = "{0}:".format(kind) if kind else None
                 self.write_desc(var.desc, header=header)
@@ -134,6 +137,7 @@ class GoogleWriter(BaseWriter):
         """
         kind = self.doc.return_field.kind if self.config.output.use_types else ""
         kind = self.remove_back_ticks(kind)
+        kind = self.convert_epytext_markup(kind, in_type=True)
         if not kind and not self.doc.return_field.desc:
             return
 

@@ -2,6 +2,7 @@
 
 import abc
 import enum
+import functools
 import re
 import textwrap
 
@@ -18,8 +19,7 @@ class BaseWriter(object):
     This class is meant to be subclassed for each type of docstring.
 
     Attributes:
-        doc (Docstring): The docstring to
-            write.
+        doc (Docstring): The docstring to write.
         config (DocconvertConfiguration):
             The configuration options for conversion.
         output (list(str)): The generated output lines as a result of
@@ -27,6 +27,7 @@ class BaseWriter(object):
     """
 
     _directives = ("example", "note", "seealso", "warning", "reference", "todo")
+    _supports_epytext_convert = True
 
     def __init__(self, doc, indent, config, kwarg="", vararg=""):
         """
@@ -65,6 +66,28 @@ class BaseWriter(object):
         self._max_length = self._calculate_max_line_length(
             self.config.output.max_line_length
         )
+
+        # Setup regex for backtick removal if enabled
+        backtick_option = BackTickRemovalOption.from_bool_or_str(
+            self.config.output.remove_type_back_ticks
+        )
+        self.backtick_regex = None
+        if backtick_option == BackTickRemovalOption.TRUE:
+            self.backtick_regex = re.compile(r"(?<!:)`(?P<text>[^\s`]+)`")
+        elif backtick_option == BackTickRemovalOption.DIRECTIVES:
+            self.backtick_regex = re.compile(r"[^\s`]*`(?P<text>[^\s`]+)`")
+
+        # Setup regex for epytext markup convert if supported and enabled
+        self.epytext_markup_regex = None
+        self.remove_epytext_types = False
+        if self._supports_epytext_convert:
+            epytext_option = EpytextMarkupConvertOption.from_bool_or_str(
+                self.config.output.convert_epytext_markup
+            )
+            if epytext_option != EpytextMarkupConvertOption.FALSE:
+                self.epytext_markup_regex = re.compile(r"([IBMC])\{(?P<text>[^\}]*)\}")
+            if epytext_option == EpytextMarkupConvertOption.TYPES:
+                self.remove_epytext_types = True
 
     def _calculate_max_line_length(self, max_length):
         """Calculates maximum line length for realigning.
@@ -185,6 +208,7 @@ class BaseWriter(object):
         for line in lines:
             # Append second line adjacent to quotes if first_line specified in config
             append = self._elements_written == 1 and self.config.output.first_line
+            line = self.convert_epytext_markup(line)
             self.write_line(line, append=append)
 
     def write_desc(self, desc, header=None, indent=1, hanging=True):
@@ -201,6 +225,8 @@ class BaseWriter(object):
             hanging (bool): Whether or not lines under the first line
                 have a hanging indent.
         """
+        # Convert any lines before realigning so we are converting source
+        desc = [self.convert_epytext_markup(line) for line in desc]
         if header:
             if self._is_longer_than_max(header, indent):
                 self.write_line(header, indent)
@@ -325,22 +351,7 @@ class BaseWriter(object):
         """Removes back ticks from text.
 
         Removal depends on configuration of ``remove_type_back_ticks``.
-        See :py:class:`BackTickRemovalOption`. Option has three modes:
-
-        - **FALSE**: No back ticks will be removed.
-        - **TRUE**: Back ticks will be removed, except from sphinx
-          directives. For example:
-
-          - `` `list` of `str` `` becomes ``list of str``
-          - `` :py:class:`Test` `` stays as `` :py:class:`Test` ``
-          - ``lot`s of `bool`s`` becomes ``lot`s of bools``
-
-        - **DIRECTIVES**: All back ticks, including directives, will be
-          removed. For example:
-
-          - `` `list` of `str` `` becomes ``list of str``
-          - `` :py:class:`Test` `` becomes ``Test``
-          - ``lot`s of `bool`s`` becomes ``lot`s of bools``
+        See :py:class:`BackTickRemovalOption`.
 
         Args:
             text (str): The text to remove back ticks from.
@@ -348,18 +359,41 @@ class BaseWriter(object):
         Returns:
             str: The string with replaceable back ticks removed.
         """
-        if not text:
+        if not text or not self.backtick_regex:
             return text
-        removal_option = BackTickRemovalOption.from_bool_or_str(
-            self.config.output.remove_type_back_ticks
-        )
-        if removal_option == BackTickRemovalOption.FALSE:
+        return re.sub(self.backtick_regex, r"\g<text>", text)
+
+    def _replace_epytext_markup(self, match, in_type=False):
+        """Helper used in re.sub to replace epytext markup matches."""
+        text = match.group(2)
+        if match.group(1) == "I":
+            return "*{}*".format(text)
+        elif match.group(1) == "B":
+            return "**{}**".format(text)
+        elif match.group(1) == "M":
+            return ":math:`{}`".format(text)
+        elif match.group(1) == "C":
+            if not in_type or not self.remove_epytext_types:
+                return "``{}``".format(text)
+        return text
+
+    def convert_epytext_markup(self, text, in_type=False):
+        """Converts epytext markup syntax to reST syntax.
+
+        Removal depends on configuration of ``convert_epytext_markup``.
+        See :py:class:`EpytextMarkupConvertOption`.
+
+        Args:
+            text (str): The text to convert.
+            in_type (bool): Whether the text is in a type definition.
+
+        Returns:
+            str: The string with markup converted.
+        """
+        if not text or not self.epytext_markup_regex:
             return text
-        if removal_option == BackTickRemovalOption.TRUE:
-            replaceable_back_tick = re.compile(r"(?<!:)`(?P<text>[^\s`]+)`")
-        else:
-            replaceable_back_tick = re.compile(r"[^\s`]*`(?P<text>[^\s`]+)`")
-        return re.sub(replaceable_back_tick, r"\g<text>", text)
+        replace = functools.partial(self._replace_epytext_markup, in_type=in_type)
+        return re.sub(self.epytext_markup_regex, replace, text)
 
 
 class BackTickRemovalOption(enum.Enum):
@@ -397,6 +431,51 @@ class BackTickRemovalOption(enum.Enum):
 
         Returns:
             BackTickRemovalOption: The removal option enum value.
+        """
+        if value is True:
+            value = "true"
+        if value is False:
+            value = "false"
+        return cls(value)
+
+
+class EpytextMarkupConvertOption(enum.Enum):
+    """Option for converting epytext inline markup in docstrings.
+
+    Option has three modes:
+
+        - **FALSE**: No epytext brackets will be converted
+        - **TRUE**: Epytext brackets will be converted to reST formats.
+          For example:
+
+          - ``I{text}`` becomes ``*text*``
+          - ``B{text}`` becomes ``**text**``
+          - ``C{source code}`` becomes ``` ``source code`` ```
+          - ``M{m*x+b}`` becomes ``:math:`m*x+b```
+
+        - **TYPES**: Epytext brackets will be converted to reST formats.
+          Source code markup will be completely removed from type strings.
+          For example:
+
+          - ``I{text}`` becomes ``*text*``
+          - ``B{text}`` becomes ``**text**``
+          - ``C{source code}`` becomes ``source code``
+    """
+
+    FALSE = "false"
+    TRUE = "true"
+    TYPES = "types"
+
+    @classmethod
+    def from_bool_or_str(cls, value):
+        """Function to handle getting enum from boolean arguments.
+
+        Args:
+            value (str or bool): The value of the option. Boolean values
+                will be converted to a string value.
+
+        Returns:
+            EpytextBracketConvertOption: The removal option enum value.
         """
         if value is True:
             value = "true"
