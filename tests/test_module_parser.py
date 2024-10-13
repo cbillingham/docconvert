@@ -204,6 +204,7 @@ class TestIssues(object):
         assert parser.docstrings[2].start == 13
         assert parser.docstrings[2].end == 20
 
+    @pytest.mark.skipif(sys.version_info < (3,), reason="requires python3")
     def test_indentation_error(self):
         """Make sure we handle IndentationError with valid python syntax."""
         lines = get_fixture_lines("indent_error.py")
