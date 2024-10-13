@@ -190,3 +190,14 @@ class TestTokenStream(object):
         assert self.tokens.current.kind == tokenize.INDENT
         assert self.tokens.current.start == (8, 0)
         assert self.tokens.current.end == (8, 4)
+
+
+class TestIssues(object):
+    def test_func_after_assign(self):
+        """Test bug where we were skipping function defs after assignments."""
+        lines = get_fixture_lines("func_after_assign.py")
+        parser = docconvert.parser.ModuleParser(lines)
+        parser.parse()
+        assert len(parser.docstrings) == 3
+        assert parser.docstrings[2].start == 13
+        assert parser.docstrings[2].end == 20
