@@ -107,8 +107,8 @@ For the versions available, see the tags on the repository.
 
 We tried really hard to have this package support both Python 2 and 3 for a
 long time. We've dropped Python 2 support officially. Its just become
-cumbersome to test with. However, the code will probably still work in
-Python 2.7+ *I think*. Good luck!
+cumbersome to automate tests for. However, the code will probably still
+work in Python 2.7+ *I think*. Good luck!
 
 ## License
 

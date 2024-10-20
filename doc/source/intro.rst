@@ -269,7 +269,7 @@ This option has 3 modes:
 
   - ``I{text}`` becomes ``*text*``
   - ``B{text}`` stays as ``**text**``
-  - ``C{source code}`` becomes ``` ``source code`` ```
+  - ``C{source code}`` becomes ````source code````
   - ``M{m*x+b}`` becomes ``:math:`m*x+b```
 
 - ``"types"``: All epytext markup is converted. In addition, in type strings,
