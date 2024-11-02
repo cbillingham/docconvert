@@ -268,7 +268,7 @@ This option has 3 modes:
 - ``"true"``: Epytext markup is converted in all text. For example:
 
   - ``I{text}`` becomes ``*text*``
-  - ``B{text}`` stays as ``**text**``
+  - ``B{text}`` becomes ``**text**``
   - ``C{source code}`` becomes ````source code````
   - ``M{m*x+b}`` becomes ``:math:`m*x+b```
 
@@ -276,7 +276,7 @@ This option has 3 modes:
   we fully remove source code markup wrapping (``C{}``). For example:
 
   - ``I{text}`` becomes ``*text*``
-  - ``B{text}`` stays as ``**text**``
+  - ``B{text}`` becomes ``**text**``
   - ``C{MyType}`` becomes ``MyType``
 
 use\_types
